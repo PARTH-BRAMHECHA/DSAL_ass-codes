@@ -1,0 +1,188 @@
+/*
+WAP to accept student database using class and array of structure
+This is the first assingment the prequisities are knowing Classes,object,structure and various sorting and searching techniques
+*/
+//preprocessor statements
+#include<iostream>
+#include<string>
+using namespace std;
+
+//declaration of structure student
+struct student{
+int rollno;
+string name;
+double SGPA;
+};
+
+//declaration of class se9
+class se9{
+private: student s[25];
+         int n;
+public:void Accept();
+       void Display();        
+       void ls();
+       int bs();
+       void dis_bsresult(int);
+       void in_sort();
+};
+
+//function to perforn linear search
+void se9::ls(){
+    double key;
+    cout<<"Enter sgpa to be searched"<<endl;
+    cin>>key;
+    int flag=0;
+    int i;
+    for(i=0;i<n;i++){
+        if(key == s[i].SGPA){
+            if(flag==0)
+               cout<<"The match is :"<<endl<<"Roll number"<<"\t"<< "Name"<<"\t \t"<< "SGPA"<<endl;
+            cout<<s[i].rollno<<"\t\t"<<s[i].name<<"\t\t"<<s[i].SGPA<<endl;
+            flag++;
+        }
+    }        
+
+    if(flag==0)
+        cout<<"No match found!";
+}
+
+//function to perform binary search
+int se9::bs()
+{
+    string name;
+    cout<<"Enter the name to to be searched"<<endl;
+    cin>>name;
+    int low_lmt=0,upp_lmt=n;
+    while(low_lmt<=upp_lmt){
+        int middle=(low_lmt+upp_lmt)/2;
+       
+        if(s[middle].name == name){
+            return middle;
+            break;
+        }
+       
+        else{
+            if(s[middle].name>name)
+                upp_lmt=middle;
+            else
+                low_lmt=middle;
+        }
+       
+    }
+    return -1;
+}
+//function show result of bs
+void se9::dis_bsresult(int pos){
+    if(pos>=0)
+    {
+    cout<<"The match is :"<<endl;
+    cout<<"Roll number"<<"\t"<< "Name"<<"\t \t"<< "SGPA"<<endl;
+    cout<<s[pos].rollno<<"\t\t"<<s[pos].name<<"\t\t"<<s[pos].SGPA<<endl;
+    }
+    else
+    cout<<"No match found!";
+}
+
+//function declared in class se-9 used to take inputs from the user,type:public
+void se9::Accept() {
+  cout<<"Enter the number of inputs required"<<endl;
+  cin>>n;
+  se9 S1;
+  for(int i=0;i<n;i++)
+  {
+     //roll numbner must be a unquie entry  
+     while(1){
+         int rn;
+         cout<<"Please enter the roll number"<<endl;
+         cin>>rn;
+         int flag=1;
+         for(int j=0;j<i;j++)
+         {
+             if(s[j].rollno==rn){
+                flag=0;
+                 break;
+             }
+         }
+         if(flag){
+            s[i].rollno=rn;
+            break;
+         }
+         else{
+             cout<<"Wrong input the rollnumber must be unique"<<endl;
+         }
+     }
+ 
+     string name;
+     cout<<"Please enter the Name"<<endl;
+     cin>>name;
+     s[i].name=name;
+     
+     //must be less than 10
+     while(1){
+         double SGPA;
+         cout<<"Please enter the SGPA"<<endl;
+         cin>> SGPA;
+         if(SGPA<=10.0){
+            s[i].SGPA=SGPA;
+            break;
+         }
+         else
+         cout<<"Wrong input SGPA is less than 10"<<endl;
+         
+     }
+     
+  }
+   
+}
+
+//function declared in class se-9 used to show output to the user,type:public
+void se9::Display(){
+    cout<<"Roll number"<<"\t"<< "Name"<<"\t \t"<< "SGPA"<<endl;
+    for(int i=0;i<n;i++)
+    cout<<s[i].rollno<<"\t\t"<<s[i].name<<"\t\t"<<s[i].SGPA<<endl;
+}
+
+//function declared in class se-9 used to insert sort the given array according to name
+void se9:: in_sort(){
+    for(int i=1;i<n;i++)
+    {
+        int cur_rono=s[i].rollno;
+        string cur_name=s[i].name;
+        double cur_sgpa=s[i].SGPA;
+        int j=i-1;
+        while(j>=0 && s[j].name>cur_name)
+        {
+            s[j+1].rollno=s[j].rollno;
+            s[j+1].name=s[j].name;
+            s[j+1].SGPA=s[j].SGPA;
+            j--;
+        }
+        s[j+1].rollno=cur_rono;
+        s[j+1].name=cur_name;
+        s[j+1].SGPA=cur_sgpa;
+    }
+}
+
+
+int main(){
+se9 S;//creating object of class se9
+
+S.Accept();//calling function to accept values in array of student
+S.Display();//caling function to display values in array of student
+for(int i=0;i<10;i++){
+    cout<<"--------------";
+}
+cout<<endl;
+cout<<"Sorting the array alphabetically according to name"<<endl;
+S.in_sort();
+S.Display();
+for(int i=0;i<10;i++){
+    cout<<"--------------";
+}
+cout<<endl;
+int pos=S.bs();//calling function to perform binary search on parameter name,it returns position of string in array after binary search
+S.dis_bsresult(pos);//calling function to show result of binary search
+ 
+S.ls();//calling function to perform linear search on parameter SGPA    
+}
+
