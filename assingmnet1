@@ -25,7 +25,7 @@ public:void Accept(int);
        void dis_bsresult(int);
        void in_sort();
        int Qpart(int,int);   
-       void qSort(int,int) ;                                                                          
+       int qSort(int,int) ;                                                                          
 };
 
 //function to perforn linear search
@@ -187,9 +187,9 @@ int se9::Qpart(int start, int end)
 	int i = start, j = end;
     while(i<j)
     {
-        while(pivot>=s[i].rollno && i<end){
+        while(pivot>=s[i].SGPA && i<end){
             i++;}
-        while(pivot<=s[j].rollno && j>start){
+        while(pivot<=s[j].SGPA && j>start){
             j--;}
         
 		if (i<j) {
@@ -203,12 +203,12 @@ int se9::Qpart(int start, int end)
 }
 
 //function to recursively call quicksort
-void se9::qSort(int start, int end)
+int se9::qSort(int start, int end)
 {
 	se9 S2;//creating object of class se9 to call the fuction quicksort recursively
 	// base case
 	if (start >= end)
-		return ;
+		return 0;
 
 	// partitioning the array
 	int p = S2.Qpart(start, end);
@@ -218,6 +218,8 @@ void se9::qSort(int start, int end)
 
 	// Sorting the right part
 	S2.qSort(p + 1, end);
+	
+	return 0;
 }
 
 int main(){
