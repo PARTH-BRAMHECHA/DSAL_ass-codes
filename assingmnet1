@@ -1,5 +1,5 @@
 /*
-WAP to accept student database using class and array of structure
+WAP to accept student database using class and array of structure.Implement searching algorithms like binary,linear and sorting algorithms like insertion,quick,bubble,selection
 This is the first assingment the prequisities are knowing Classes,object,structure and various sorting and searching techniques
 */
 //preprocessor statements
@@ -18,12 +18,14 @@ double SGPA;
 class se9{
 private: student s[25];
          int n;
-public:void Accept();
-       void Display();        
+public:void Accept(int);
+       void Display(int);        
        void ls();
        int bs();
        void dis_bsresult(int);
        void in_sort();
+       int Qpart(int,int);   
+       void qSort(int,int) ;                                                                          
 };
 
 //function to perforn linear search
@@ -84,9 +86,8 @@ void se9::dis_bsresult(int pos){
 }
 
 //function declared in class se-9 used to take inputs from the user,type:public
-void se9::Accept() {
-  cout<<"Enter the number of inputs required"<<endl;
-  cin>>n;
+void se9::Accept(int no) {
+  n=no;
   se9 S1;
   for(int i=0;i<n;i++)
   {
@@ -100,7 +101,8 @@ void se9::Accept() {
          {
              if(s[j].rollno==rn){
                 flag=0;
-                 break;
+                 break;  cout<<"Enter the number of inputs required"<<endl;
+  cin>>n;
              }
          }
          if(flag){
@@ -136,13 +138,13 @@ void se9::Accept() {
 }
 
 //function declared in class se-9 used to show output to the user,type:public
-void se9::Display(){
-    cout<<"Roll number"<<"\t"<< "Name"<<"\t \t"<< "SGPA"<<endl;
-    for(int i=0;i<n;i++)
+void se9::Display(int lim){
+    cout<<"Roll number"<<"\t"<< "Name"<<"\t\t"<< "SGPA"<<endl;
+    for(int i=0;i<lim;i++)
     cout<<s[i].rollno<<"\t\t"<<s[i].name<<"\t\t"<<s[i].SGPA<<endl;
 }
 
-//function declared in class se-9 used to insert sort the given array according to name
+//function declared in class se-9 used to insertion t the given array according to name
 void se9:: in_sort(){
     for(int i=1;i<n;i++)
     {
@@ -163,26 +165,94 @@ void se9:: in_sort(){
     }
 }
 
+//function to perform parition of the array it is a part of se-9 class to access private member s[25]
+int se9::Qpart(int start, int end)
+{
+
+	int pivot = s[start].SGPA;
+
+	int count = 0;
+	for (int i = start + 1; i <= end; i++) {
+		if (s[i].SGPA <= pivot)
+			count++;
+	}
+
+	// Giving pivot element its correct position
+	int pivotIndex = start + count;	
+	swap(s[pivotIndex].name,s[start].name);
+	swap(s[pivotIndex].rollno,s[start].rollno);
+	swap(s[pivotIndex].SGPA,s[start].SGPA);
+
+	// Sorting left and right parts of the pivot element
+	int i = start, j = end;
+    while(i<j)
+    {
+        while(pivot>=s[i].rollno && i<end){
+            i++;}
+        while(pivot<=s[j].rollno && j>start){
+            j--;}
+        
+		if (i<j) {
+				swap(s[pivotIndex].name,s[start].name);
+				swap(s[pivotIndex].rollno,s[start].rollno);
+				swap(s[pivotIndex].SGPA,s[start].SGPA);
+		}
+	}
+
+	return pivotIndex;
+}
+
+//function to recursively call quicksort
+void se9::qSort(int start, int end)
+{
+	se9 S2;//creating object of class se9 to call the fuction quicksort recursively
+	// base case
+	if (start >= end)
+		return ;
+
+	// partitioning the array
+	int p = S2.Qpart(start, end);
+
+	// Sorting the left part
+	S2.qSort(start, p - 1);
+
+	// Sorting the right part
+	S2.qSort(p + 1, end);
+}
 
 int main(){
 se9 S;//creating object of class se9
 
-S.Accept();//calling function to accept values in array of student
-S.Display();//caling function to display values in array of student
+int no;
+cout<<"Enter the number of inputs required"<<endl;
+cin>>no;
+
+S.Accept(no);//calling function to accept values in array of student
+S.Display(no);//caling function to display values in array of student
 for(int i=0;i<10;i++){
-    cout<<"--------------";
+    cout<<"------------";
 }
 cout<<endl;
 cout<<"Sorting the array alphabetically according to name"<<endl;
 S.in_sort();
-S.Display();
+S.Display(no);
 for(int i=0;i<10;i++){
-    cout<<"--------------";
+    cout<<"------------";
 }
 cout<<endl;
+cout<<"Sorting the array in ascending order according to SGPA"<<endl;
+S.qSort(0, no - 1);
+if(no<=10)
+	S.Display(no);
+else
+	S.Display(10);	
+for(int i=0;i<10;i++){
+    cout<<"------------";
+}
+cout<<endl;
+S.in_sort();//caling function to sort according to name as for binary search we need sorted array
 int pos=S.bs();//calling function to perform binary search on parameter name,it returns position of string in array after binary search
 S.dis_bsresult(pos);//calling function to show result of binary search
  
 S.ls();//calling function to perform linear search on parameter SGPA    
 }
-
