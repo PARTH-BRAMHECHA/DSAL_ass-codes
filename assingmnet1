@@ -193,9 +193,9 @@ int se9::Qpart(int start, int end)
             j--;}
         
 		if (i<j) {
-				swap(s[pivotIndex].name,s[start].name);
-				swap(s[pivotIndex].rollno,s[start].rollno);
-				swap(s[pivotIndex].SGPA,s[start].SGPA);
+				swap(s[i].name,s[j].name);
+				swap(s[i].rollno,s[j].rollno);
+				swap(s[i].SGPA,s[j].SGPA);
 		}
 	}
 
