@@ -5,6 +5,8 @@ This is the first assingment the prequisities are knowing Classes,object,structu
 //preprocessor statements
 #include<iostream>
 #include<string>
+#include<cstring>
+#include<string.h>
 using namespace std;
 
 //declaration of structure student
@@ -21,7 +23,7 @@ private: student s[25];
 public:void Accept(int);
        void Display(int);        
        void ls();
-       int bs();
+       void bs();
        void dis_bsresult(int);
        void in_sort();
        int Qpart(int,int);   
@@ -49,40 +51,34 @@ void se9::ls(){
 }
 
 //function to perform binary search
-int se9::bs()
+void se9::bs()
 {
     string name;
     cout<<"Enter the name to to be searched"<<endl;
     cin>>name;
-    int low_lmt=0,upp_lmt=n;
+    int low_lmt=0,upp_lmt=n-1,middle=(low_lmt+upp_lmt)/2;
+    
     while(low_lmt<=upp_lmt){
-        int middle=(low_lmt+upp_lmt)/2;
-       
-        if(s[middle].name == name){
-            return middle;
+        
+        if(s[middle].name==name){
+        cout<<"The match is :"<<endl;
+        cout<<"Roll number"<<"\t"<< "Name"<<"\t \t"<< "SGPA"<<endl;
+        cout<<s[middle].rollno<<"\t\t"<<s[middle].name<<"\t\t"<<s[middle].SGPA<<endl;
             break;
         }
-       
-        else{
-            if(s[middle].name>name)
-                upp_lmt=middle;
-            else
-                low_lmt=middle;
+        
+        else if(s[middle].name<name)
+            low_lmt=middle+1;
+        
+        else if(s[middle].name>name)
+            upp_lmt=middle-1;
+        
+        if(low_lmt>upp_lmt)
+        {
+            cout<<name<<" Not found in the list"<<endl;
         }
-       
+        middle=(low_lmt+upp_lmt)/2;    
     }
-    return -1;
-}
-//function show result of bs
-void se9::dis_bsresult(int pos){
-    if(pos>=0)
-    {
-    cout<<"The match is :"<<endl;
-    cout<<"Roll number"<<"\t"<< "Name"<<"\t \t"<< "SGPA"<<endl;
-    cout<<s[pos].rollno<<"\t\t"<<s[pos].name<<"\t\t"<<s[pos].SGPA<<endl;
-    }
-    else
-    cout<<"No match found!";
 }
 
 //function declared in class se-9 used to take inputs from the user,type:public
@@ -253,8 +249,7 @@ for(int i=0;i<10;i++){
 }
 cout<<endl;
 S.in_sort();//caling function to sort according to name as for binary search we need sorted array
-int pos=S.bs();//calling function to perform binary search on parameter name,it returns position of string in array after binary search
-S.dis_bsresult(pos);//calling function to show result of binary search
- 
+S.bs();//calling function to perform binary search on parameter name,it returns position of string in array after binary search
+
 S.ls();//calling function to perform linear search on parameter SGPA    
 }
