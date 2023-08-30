@@ -201,19 +201,18 @@ int se9::Qpart(int start, int end)
 //function to recursively call quicksort
 int se9::qSort(int start, int end)
 {
-	se9 S2;//creating object of class se9 to call the fuction quicksort recursively
 	// base case
 	if (start >= end)
 		return 0;
 
 	// partitioning the array
-	int p = S2.Qpart(start, end);
+	int p = Qpart(start, end);
 
 	// Sorting the left part
-	S2.qSort(start, p - 1);
+    qSort(start, p - 1);
 
 	// Sorting the right part
-	S2.qSort(p + 1, end);
+    qSort(p + 1, end);
 	
 	return 0;
 }
