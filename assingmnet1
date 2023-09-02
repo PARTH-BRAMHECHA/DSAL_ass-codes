@@ -21,7 +21,8 @@ class se9{
 private: student s[25];
          int n;
 public:void Accept(int);
-       void Display(int);        
+       void Display(int);  
+       void rDisplay(int);
        void ls();
        void bs();
        void dis_bsresult(int);
@@ -47,7 +48,7 @@ void se9::ls(){
     }        
 
     if(flag==0)
-        cout<<"No match found!";
+        cout<<"No match found!"<<endl;
 }
 
 //function to perform binary search
@@ -87,26 +88,28 @@ void se9::Accept(int no) {
   se9 S1;
   for(int i=0;i<n;i++)
   {
-     //roll numbner must be a unquie entry  
+     //roll numbner must be a unquie entry and positive
      while(1){
          int rn;
          cout<<"Please enter the roll number"<<endl;
          cin>>rn;
-         int flag=1;
+         
+         int flag=0;
+         if(rn>0)
+            flag=1;
          for(int j=0;j<i;j++)
          {
              if(s[j].rollno==rn){
                 flag=0;
-                 break;  cout<<"Enter the number of inputs required"<<endl;
-  cin>>n;
-             }
+                 break;  
+              }
          }
          if(flag){
             s[i].rollno=rn;
             break;
          }
          else{
-             cout<<"Wrong input the rollnumber must be unique"<<endl;
+             cout<<"Wrong input the rollnumber must be unique and non negative"<<endl;
          }
      }
  
@@ -135,8 +138,15 @@ void se9::Accept(int no) {
 
 //function declared in class se-9 used to show output to the user,type:public
 void se9::Display(int lim){
-    cout<<"Roll number"<<"\t"<< "Name"<<"\t\t"<< "SGPA"<<endl;
+    cout<<endl<<"Roll number"<<"\t"<< "Name"<<"\t\t"<< "SGPA"<<endl;
     for(int i=0;i<lim;i++)
+    cout<<s[i].rollno<<"\t\t"<<s[i].name<<"\t\t"<<s[i].SGPA<<endl;
+}
+
+//function declared in class se-9 used to show output to the user in reverse order,type:public
+void se9::rDisplay(int lim){
+    cout<<"Roll number"<<"\t"<< "Name"<<"\t\t"<< "SGPA"<<endl;
+    for(int i=lim-1;i>=0;i--)
     cout<<s[i].rollno<<"\t\t"<<s[i].name<<"\t\t"<<s[i].SGPA<<endl;
 }
 
@@ -225,30 +235,65 @@ cout<<"Enter the number of inputs required"<<endl;
 cin>>no;
 
 S.Accept(no);//calling function to accept values in array of student
+cout<<endl;
+for(int i=0;i<10;i++){
+    cout<<"-------------";
+}
 S.Display(no);//caling function to display values in array of student
 for(int i=0;i<10;i++){
-    cout<<"------------";
+    cout<<"-------------";
 }
-cout<<endl;
-cout<<"Sorting the array alphabetically according to name"<<endl;
-S.in_sort();
-S.Display(no);
-for(int i=0;i<10;i++){
-    cout<<"------------";
-}
-cout<<endl;
-cout<<"Sorting the array in ascending order according to SGPA"<<endl;
-S.qSort(0, no - 1);
-if(no<=10)
-	S.Display(no);
-else
-	S.Display(10);	
-for(int i=0;i<10;i++){
-    cout<<"------------";
-}
-cout<<endl;
-S.in_sort();//caling function to sort according to name as for binary search we need sorted array
-S.bs();//calling function to perform binary search on parameter name,it returns position of string in array after binary search
 
-S.ls();//calling function to perform linear search on parameter SGPA    
+int t=1;
+while(t){
+    int choice;
+    cout<<endl;
+    cout<<"Enter choice :\n 1 for showing the toppers\n 2 for sorting the array as per the the name \n 3 for searching the name \n 4 for searching according to sgpa"<<endl;
+    cin>>choice;
+    switch(choice){
+        case 1:
+            cout<<endl;
+            cout<<"The toppers are"<<endl;
+            S.qSort(0, no - 1);
+            if(no<=10)
+            	S.rDisplay(no);
+            else
+            	S.rDisplay(10);	
+            for(int i=0;i<10;i++){
+                 cout<<"---------";
+            }
+            cout<<endl<<"Enter 0 to exit and any other to continue"<<endl;
+            cin>>t;
+            break;  
+            
+        case 2:    
+            S.in_sort();//caling function to sort according to name
+            S.Display(no);
+            cout<<endl;
+            cout<<"Enter 0 to exit and any other to continue";
+            cin>>t;
+            break;
+            
+        case 3:
+            cout<<endl;
+            S.in_sort();//caling function to sort according to name as for binary search we need sorted array
+            S.bs();//calling function to perform binary search on parameter name,it returns position of string in array after binary search
+            cout<<endl;
+            cout<<"Enter 0 to exit and any other to continue"<<endl;
+            cin>>t;
+            break;
+            
+        case 4:
+            S.ls();//calling function to perform linear search on parameter SGPA
+            cout<<endl;
+            cout<<"Enter 0 to exit and any other to continue"<<endl;
+            cin>>t;
+            break;
+            
+        default:
+            cout<<"wrong input"<<endl;
+            cout<<"Enter 0 to exit and any other to continue"<<endl;
+            cin>>t;
+}
+}
 }
