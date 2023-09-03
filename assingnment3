@@ -1,0 +1,69 @@
+/*Implement Circular Queue using Array. Perform following operations on it.
+a) Insertion (Enqueue)
+b) Deletion (Dequeue)
+c) Display */
+#include<iostream> //preprocessing statements
+#include<string>
+#include<climits>
+using namespace std;
+
+struct patient{     //declaration of structure of pateints with object p
+  int enrollno;     //int datatype to store enrollment number of pateints
+  string name;      //string datatype to store name of patients
+};
+//in this program we will be implementing Queues which is first in,first out type of data structure
+class PCQueue{
+    private:patient P[];
+            int rear,front; //inialization
+    public: Isempty();
+            Isfull();
+            Dequeue();
+            Enqueue();
+            Display();
+            Insert();
+};
+void PCQueue::Isempty(){
+    }
+
+void PCQueue::Isfull(){
+    }
+    
+void PCQueue::Dequeue(){
+    }
+
+void PCQueue::Enqueue(){
+    }
+    
+void PCQueue::Display(){
+    } 
+
+void PCQueue::Insert(){
+    }
+    
+int main(){
+    int counter=1;
+    while(counter){
+        int ch;
+        cout<<"Enter your choice 1:\tfor Dequeue\n2:\tfor Enqueue\n3:\tfor Display"<<endl;
+        cin>>ch;
+        switch(ch){
+            case 1:
+                cout<<"Enter 0 to exit or anyother to continue"<<endl;
+                cin>>counter;
+                break;
+            case 2:
+                cout<<"Enter 0 to exit or anyother to continue"<<endl;
+                cin>>counter;
+                break;
+            case 3:
+                cout<<"Enter 0 to exit or anyother to continue"<<endl;
+                cin>>counter;
+                break;
+            default:
+                cout<<"Wrong input !!"<<endl;
+                cout<<"Enter 0 to exit or anyother to continue"<<endl;
+                cin>>counter;
+        }
+    }
+    return 0;
+}
