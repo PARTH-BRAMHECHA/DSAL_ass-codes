@@ -1,69 +1,164 @@
-/*Implement Circular Queue using Array. Perform following operations on it.
-a) Insertion (Enqueue)
-b) Deletion (Dequeue)
-c) Display */
-#include<iostream> //preprocessing statements
-#include<string>
-#include<climits>
+// Circular Queue implementation in C++
+
+#include <iostream>
+#include <cstring>
 using namespace std;
-
-struct patient{     //declaration of structure of pateints with object p
-  int enrollno;     //int datatype to store enrollment number of pateints
-  string name;      //string datatype to store name of patients
+struct Patient{
+    string name; //string datatype to hold name of patient
+    int enrono;//float datatype to hold enrollment number of patient
+    double bill;//double datatype to hold bill of the patient
 };
-//in this program we will be implementing Queues which is first in,first out type of data structure
-class PCQueue{
-    private:patient P[];
-            int rear,front; //inialization
-    public: Isempty();
-            Isfull();
-            Dequeue();
-            Enqueue();
-            Display();
-            Insert();
+class PCQueue {
+   private:
+  Patient p[20];
+  int front, rear,size;
+
+   public:
+     PCQueue(int s){
+        front=-1;
+        rear=-1;
+        size=s;
+    }
+    void input(PCQueue);//function to take input of the pateints data
+    bool isFull();  //function to check if given ciruclar queue is full
+    bool isEmpty(); //function to check if given ciruclar queue is empty
+    void enQueue(string,int,double);//function to enqueue in a given ciruclar queue 
+    void deQueue();//function to dequeue from a given ciruclar queue  
+    void display();//function to display a given ciruclar queue 
 };
-void PCQueue::Isempty(){
-    }
 
-void PCQueue::Isfull(){
+    // Check if the queue is full
+    bool PCQueue :: isFull() {
+      if((front==0 && rear==size-1) ||((rear+1)%size==front))
+        return true;  
+      return false;
     }
     
-void PCQueue::Dequeue(){
+    // Check if the queue is empty
+    bool PCQueue :: isEmpty() {
+        if (front == -1)
+        return true;
+        else
+        return false;
     }
-
-void PCQueue::Enqueue(){
+    // Adding an element
+    void PCQueue :: enQueue(string elm_1,int elm_2,double elm_3) {
+        if (isFull()) {
+        cout << "Queue is full"<<endl;
+        } 
+        else {
+            if(front==-1) //insering first element in the array           
+              front=rear=0;
+            else
+              rear=(rear+1)%size;
+            
+            p[rear].name=elm_1;
+            p[rear].enrono=elm_2;
+            p[rear].bill=elm_3;  
+            }
     }
     
-void PCQueue::Display(){
-    } 
+  // Removing an element
+  //here we physically are not removing an elemnet but logically discarding it
+    void PCQueue :: deQueue() {
+        if (isEmpty()) {
+        cout << "Queue is empty" << endl;
+        //return (-1);
+        } 
+        else {
 
-void PCQueue::Insert(){
-    }
-    
-int main(){
-    int counter=1;
-    while(counter){
-        int ch;
-        cout<<"Enter your choice 1:\tfor Dequeue\n2:\tfor Enqueue\n3:\tfor Display"<<endl;
-        cin>>ch;
-        switch(ch){
-            case 1:
-                cout<<"Enter 0 to exit or anyother to continue"<<endl;
-                cin>>counter;
-                break;
-            case 2:
-                cout<<"Enter 0 to exit or anyother to continue"<<endl;
-                cin>>counter;
-                break;
-            case 3:
-                cout<<"Enter 0 to exit or anyother to continue"<<endl;
-                cin>>counter;
-                break;
-            default:
-                cout<<"Wrong input !!"<<endl;
-                cout<<"Enter 0 to exit or anyother to continue"<<endl;
-                cin>>counter;
+        if (front == rear) {
+            front = -1;
+            rear = -1;
+        }
+        else
+            front=(front+1)%size;
         }
     }
-    return 0;
+    void PCQueue :: display() {
+        if (isEmpty()) 
+          cout << endl<< "Empty Queue" << endl;
+        else {
+            cout<<"Name"<<"\t\t"<<"Enrollment number"<<"\t\t"<<"Bill"<<endl;
+            if(front<=rear){
+                 for (int i = front; i <= rear; i ++){
+                 cout <<p[i].name<<"\t\t"<< p[i].enrono<<"\t\t\t\t"<<p[i].bill<<endl;
+                }
+            }
+            else{
+                for(int i=front;i<size;i++){
+                    cout <<p[i].name<<"\t\t"<< p[i].enrono<<"\t\t\t\t"<<p[i].bill<<endl;
+                }
+                for(int i=0;i<=rear;i++){
+                    cout <<p[i].name<<"\t\t"<< p[i].enrono<<"\t\t\t\t"<<p[i].bill<<endl;
+                }
+            }
+        
+        }
+        cout<<endl;
+  }
+  
+  void PCQueue :: input(PCQueue P){
+      string n;
+      int enno;
+      double bill_loc;
+      cout<<"Enter the name of the pateint"<<endl;
+      cin>>n;
+       //Enrollment number must be unquie
+      while(1){
+              cout<<"Enter Enrollment number of the pateint"<<endl;
+              cin>>enno;
+              int flag=0;
+              for(int i=0;i<size;i++)
+              {
+                  if(enno==p[i].enrono)
+                    flag=1;
+              }
+              if (flag)
+                cout<<"Wrong input enrollment number must be unquie\nplease check your input"<<endl;
+              else
+                break;
+              }
+      
+          cout<<"Enter the bill of the pateint";
+          cin>>bill_loc;
+          
+          P.enQueue(n,enno,bill_loc);
+  }
+    
+int main() {
+      int s;
+      cout<<"Please enter the number of pateints the hospital can handle"<<endl;
+      cin>>s;
+      PCQueue P(s);
+        int choice;
+        int flag=1;
+        while(flag){
+            cout<<"Please enter your chooice \n 1 for enrollment of new pateints \n 2 for discharging a pateint \n 3 for looking at the current pateints"<<endl;
+            cin>>choice;
+            switch(choice){
+                case 1: P.input(P);
+                        cout<<"Please enter 1 to continue or 0 to exit"<<endl;
+                        cin>>flag;
+                        break;
+                        
+                case 2: P.deQueue();
+                        cout<<"Please enter 1 to continue or 0 to exit"<<endl;
+                        cin>>flag;
+                        break;
+                        
+                case 3: P.display();
+                        cout<<"Please enter 1 to continue or 0 to exit"<<endl;
+                        cin>>flag;
+                        break;
+            
+                default:cout<<"Wrong input please enter valid input"<<endl;
+                        cout<<"Please enter 1 to continue or 0 to exit"<<endl;
+                        cin>>flag;
+               
+           }
+           
+       }
+        // Inserting elements in Circular Queue
+  return 0;
 }
