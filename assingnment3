@@ -108,18 +108,22 @@ int main() {
                 string name;
                 int enrono;
                 double bill_loc;
-
-                cout << "Enter the name of the patient: ";
-                cin>>name;
-
-                cout << "Enter Enrollment number of the patient: ";
-                cin >> enrono;
-
-                cout << "Enter the bill of the patient: ";
-                cin >> bill_loc;
-
-                P.enQueue(name, enrono, bill_loc);
-                break;
+                if(P.isFull()){
+                    cout<<"The Queue is full"<<endl;
+                }
+                else{
+                    cout << "Enter the name of the patient: ";
+                    cin>>name;
+    
+                    cout << "Enter Enrollment number of the patient: ";
+                    cin >> enrono;
+    
+                    cout << "Enter the bill of the patient: ";
+                    cin >> bill_loc;
+    
+                    P.enQueue(name, enrono, bill_loc);
+                    break;
+                    }
             }
 
             case 2:
