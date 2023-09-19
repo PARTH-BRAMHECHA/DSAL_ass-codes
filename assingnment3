@@ -1,4 +1,4 @@
-// Circular Queue implementation in C++ fro hospital
+// Circular Queue implementation in C++ for hospital
 #include <iostream>
 #include <vector>
 #include <string>
@@ -7,7 +7,7 @@ using namespace std;
 
 struct Patient {
     string name; //string datatype to hold name of patient
-    int enrono;//float datatype to hold enrollment number of patient
+    int enrono;//int datatype to hold enrollment number of patient
     double bill;//double datatype to hold bill of the patient
 };
 
@@ -28,6 +28,7 @@ public:
     void enQueue(string,int,double);//function to enqueue in a given ciruclar queue 
     void deQueue();//function to dequeue from a given ciruclar queue  
     void display();//function to display a given ciruclar queue};
+    bool validated_input(int);//function to validate enrollment number is unique
 };
     // Check if the queue is full
     bool PCQueue ::  isFull() {
@@ -89,12 +90,25 @@ public:
         }
         cout << endl;
     }
+bool PCQueue::validated_input(int enro){
+    for(int i=0;i<size;i++){
+        if(queue[i].enrono==enro)
+                return false;       //return false if the enrollment number is not unique        
+    }
+    return true;                    //return true if the enrollment numner is unique
+}
 
 
 int main() {
     int s;
-    cout << "Please enter the number of patients the hospital can handle: ";
-    cin >> s;
+    while(true){
+        cout << "Please enter the number of patients the hospital can handle: ";
+        cin >> s;
+        if(s>=0)
+            break;
+        else
+            cout<<"Wrong input\nInput must be positive"<<endl;
+    }
 
     PCQueue P(s);
     int choice;
@@ -115,8 +129,14 @@ int main() {
                     cout << "Enter the name of the patient: ";
                     cin>>name;
     
-                    cout << "Enter Enrollment number of the patient: ";
-                    cin >> enrono;
+                    while(true){
+                        cout<<"Please enter enrollment number: ";
+                        cin>>enrono;
+                        if(P.validated_input(enrono))
+                            break;
+                        else
+                            cout<<"Please enter a unique number"<<endl;
+                    }
     
                     cout << "Enter the bill of the patient: ";
                     cin >> bill_loc;
