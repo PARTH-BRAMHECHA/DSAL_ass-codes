@@ -1,5 +1,6 @@
 //preproccessing statement
 #include<iostream>
+#include<bits/stdc++.h>
 #include"Stack.h"
 #include"Stack.cpp"
 #include<conio.h>
@@ -22,101 +23,156 @@ class treenode{
         right=NULL;
     }
     treenode(){};//default constructor
-    treenode* getleft(treenode*);
-    treenode* getright(treenode*);
-    void printroot(treenode*);
-    void setLeft(treenode*,treenode*);
-    void setRight(treenode*,treenode*);
+    treenode* getleft();
+    treenode* getright();
+    char getValue();
+    char printroot(treenode*);
+    void answer(treenode*);
+    void setLeft(treenode*);
+    void setRight(treenode*);
 };
-
-treenode* treenode :: getleft(treenode* root){
-    return root->left;
+char treenode :: getValue() {
+        return data;
+}
+treenode* treenode :: getleft(){
+    return left;
 }
 
-treenode* treenode :: getright(treenode* root){
-    return root->right;
+treenode* treenode :: getright(){
+    return right;
 }
 
-void treenode :: printroot(treenode* root){
+char treenode :: printroot(treenode* root){
+    return(root->data);
+}
+
+void treenode :: setLeft( treenode* newNode){
+    left = newNode;
+}
+
+void treenode :: setRight( treenode* newNode){
+    right = newNode;
+}
+
+void treenode :: answer(treenode* root){
     cout<<root->data<<" ";
 }
 
-void treenode :: setLeft(treenode* root, treenode* newNode){
-    root->left = newNode;
-}
-
-void treenode :: setRight(treenode* root, treenode* newNode){
-    root->right = newNode;
-}
-
-//class exptree:contains all members to perform on postfix 
-class exptree{
+//class Exptree:contains all members to perform on postfix 
+class Exptree{
     //make data members private
     private:string str;
             treenode object;
     //make functions public
     public:
-        exptree(){};  //expression tree default constructor
+        Exptree(){};  //expression tree default constructor
         void input();
         treenode* CreateTree();
         void inorder_recurssive(treenode*);
         void preorder_recurssive(treenode*);
         void postorder_recurssive(treenode*);
-        void inorder_nonrecurssive(treenode*);
-        void preorder_nonrecurssive(treenode*);
-        void postorder_nonrecurssive(treenode*);
+        void inorder_itta(treenode*);
+        void preorder_itta(treenode*);
+        void postorder_itta(treenode*);
            
 };
 
-void exptree :: input(){
+void Exptree :: input(){
     cout<<"Please enter an postfix expression"<<endl;
     getline(cin,str);    
 }
 
 //functions for inorder recurssive transversal
-void exptree :: inorder_recurssive(treenode* root){
+void Exptree :: inorder_recurssive(treenode* root){
     if(root==NULL)
         return;
-    inorder_recurssive(object.getleft(root));
-    object.printroot(root);
-    inorder_recurssive(object.getright(root));    
+    inorder_recurssive(root->getleft());
+    object.answer(root);
+    inorder_recurssive(root->getright());    
 }
 
 //functions for preorder recurssive transversal
-void exptree :: preorder_recurssive(treenode* root){
+void Exptree :: preorder_recurssive(treenode* root){
     if(root==NULL)
         return;
-    object.printroot(root);
-    preorder_recurssive(object.getleft(root));
-    preorder_recurssive(object.getright(root));    
+    object.answer(root);
+    preorder_recurssive(root->getleft());
+    preorder_recurssive(root->getright());    
 }
 
 //functions for postorder recurssive transversal
-void exptree :: postorder_recurssive(treenode* root){
+void Exptree :: postorder_recurssive(treenode* root){
     if(root==NULL)
         return;
-    postorder_recurssive(object.getleft(root));
-    postorder_recurssive(object.getright(root));
-    object.printroot(root);   
+    postorder_recurssive(root->getleft());
+    postorder_recurssive(root->getright());
+    object.answer(root);   
 }
+
 
 //functions for inorder nonrecurssive tranversal
-void exptree :: inorder_nonrecurssive(treenode* root){
+void Exptree :: inorder_itta(treenode* root){
+    Stack<treenode*> stack;
+    treenode* current = root;
 
+    while (!stack.isempty() || current) {
+        if (current) {
+            stack.push(current);
+            current = current->getleft();
+        } else {
+            current = stack.top();
+            stack.pop();
+            cout << current->getValue() << ' ';
+            current = current->getright();
+        }
+    }    
 }
 
-//functions for preorder nonrecurssive tranversal
-void exptree :: preorder_nonrecurssive(treenode* root){
 
+//functions for preorder nonrecurssive tranversal
+void Exptree :: preorder_itta(treenode* root){
+    Stack<treenode*> stack;
+    stack.push(root);
+
+    while (!stack.isempty()) {
+        treenode* current = stack.top();
+        stack.pop();
+        if (current) {
+            std::cout << current->getValue() << ' ';
+            stack.push(current->getright());
+            stack.push(current->getleft());
+        }
+    }
 }
 
 //functions for postorder nonrecurssive tranversal
-void exptree :: postorder_nonrecurssive(treenode* root){
+//template <class T>
+void Exptree :: postorder_itta(treenode* root){
+    if (!root) return;
+    Stack<treenode*> stack1, stack2;
+    stack1.push(root);
 
+    while (!stack1.isempty()) {
+        treenode* current = stack1.top();
+        stack1.pop();
+        stack2.push(current);
+
+        if (current->getleft()) {
+            stack1.push(current->getleft());
+        }
+        if (current->getright()) {
+            stack1.push(current->getright());
+        }
+    }
+
+    while (!stack2.isempty()) {
+        cout << stack2.top()->getValue() << ' ';
+        stack2.pop();
+    }
 }
 
 //functions in which we create the postfix expreession tree
-treenode* exptree :: CreateTree(){
+treenode* Exptree :: CreateTree(){
     treenode* temp;
     Stack < treenode* > st;
     for(int i=0;i<str.size();i++){
@@ -131,8 +187,8 @@ treenode* exptree :: CreateTree(){
             st.pop();
             treenode* n1=st.top();//poping out the operand-1
             st.pop();
-            op->setLeft(op,n1);
-            op->setRight(op,n2);
+            op->setLeft(n1);
+            op->setRight(n2);
             st.push(op);
         }
     }
@@ -141,9 +197,10 @@ treenode* exptree :: CreateTree(){
 }
 
 int main(){
-    exptree obj; //object of the class expression tree
+    Exptree obj; //object of the class expression tree
     obj.input();
     treenode* t=obj.CreateTree();
+    vector <treenode*> ans;
     cout<<"The infix expression is:";
     obj.inorder_recurssive(t);
     cout<<endl;
@@ -152,5 +209,14 @@ int main(){
     cout<<endl;
     cout<<"The postfix expression is:";
     obj.postorder_recurssive(t); 
+    cout<<endl;
+    cout<<"The infix expression is:";
+    obj.inorder_itta(t);
+    cout<<endl;
+    cout<<"The prefix expression is:";
+    obj.preorder_itta(t);
+    cout<<endl;
+    cout<<"The postfix expression is:";
+    obj.postorder_itta(t);
     return 0;
 }

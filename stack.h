@@ -22,7 +22,7 @@ class Stack{
       void push(T g);   //function to push into the stack
       void pop();       //function to pop from the stack
       T top();          //function to peek the top of the stack
-      bool empty();     //function to see if the stack is empty
+      bool isempty();     //function to see if the stack is empty
       friend class node<T>;  
 };
 #endif

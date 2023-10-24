@@ -36,7 +36,7 @@ T Stack<T>:: top(){
 
 //defination of function empty() from the stack class i.e check if the head is NULL
 template<class T>
-bool Stack<T>:: empty(){
+bool Stack<T>:: isempty(){
     if(head==NULL){
        return 1;
     }
